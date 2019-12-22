@@ -6,7 +6,6 @@ import org.springframework.data.redis.connection.RedisStandaloneConfiguration
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory
 import org.springframework.data.redis.listener.ChannelTopic
 import org.springframework.data.redis.listener.RedisMessageListenerContainer
-import org.springframework.data.redis.listener.adapter.MessageListenerAdapter
 
 @Configuration
 class SpringRedisConfig {
@@ -21,16 +20,17 @@ class SpringRedisConfig {
 //		return StringRedisTemplate(connectionFactory())
 //	}
 
-	@Bean
-	fun messageListener(): MessageListenerAdapter {
-		return MessageListenerAdapter(RedisMessageSubscriber())
-	}
+//	@Bean
+//	fun messageListener(): MessageListenerAdapter {
+//		return MessageListenerAdapter(RedisMessageSubscriber())
+//	}
 
 	@Bean
 	fun redisMessageListenerContainer():RedisMessageListenerContainer{
 		val container = RedisMessageListenerContainer()
 		container.setConnectionFactory(connectionFactory())
-		container.addMessageListener(messageListener(), topic())
+//		container.addMessageListener(messageListener(), topic())
+		container.addMessageListener(RedisMessageListener(), topic())
 		return container
 	}
 
